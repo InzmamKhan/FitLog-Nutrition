@@ -16,7 +16,7 @@ A hyper-minimalist, high-end desktop nutrition tracker designed for devs who wan
 
 Here is how the application orchestrates data across its decoupled stack under the hood:
 
-
+```text
 [ User Interface ]  ---> Logs Metrics --->  [ Flask Controller ]
  (PyWebView App)                              (server/routes.py)
         ^                                             |
@@ -30,7 +30,7 @@ Here is how the application orchestrates data across its decoupled stack under t
                                                                     |
                                                                     v Writes To
                                                              [ MySQL Database ]
-
+```
 
 ### 🔁 Execution Lifecycle
 
@@ -45,7 +45,7 @@ Here is how the application orchestrates data across its decoupled stack under t
 
 The core storage tier tracks data using two clean, related tables with zero indexing bloat:
 
-
+```text
   +-----------------------+             +-----------------------+
   |       USER_DATA       |             |     TRACK_RECORD      |
   +-----------------------+             +-----------------------+
@@ -57,4 +57,4 @@ The core storage tier tracks data using two clean, related tables with zero inde
   | Gender / Activity     |             | Footsteps             |
   | Objective             |             +-----------------------+
   +-----------------------+
-
+```
