@@ -1,0 +1,13 @@
+/* Core Dark Palette variables */
+:root {
+    --bg-pure-black: #0a0a0a;
+    --bg-card-gray: #141414;
+    --border-subtle: #262626;
+    --text-primary: #ffffff;
+    --text-muted: #888888;
+    
+    /* Muted, premium tracking color accents */
+    --accent-green: #34d399;   /* Smooth Emerald */
+    --accent-yellow: #fbbf24;  /* Muted Gold */
+    --accent-red: #f87171;     /* Soft Coral Crimson */
+}
