@@ -6,7 +6,6 @@ A hyper-minimalist, high-end desktop nutrition tracker designed for devs who wan
 
 ## 🖤 Features
 
-*   **Matte Charcoal Interface:** Zero eye strain, zero clutter. Just pure data.
 *   **Dynamic Objective Inversion:** The UI intelligently alters its progress colors based on whether you are **Bulking** (surplus target) or **Cutting** (strict calorie ceiling limit).
 *   **Zero-Dependency Form Tracking:** Log nutrients directly beneath your metrics cards instantly.
 *   **Mathematical Precision:** Employs **NumPy** for biometric calculations (Mifflin-St Jeor) and **Pandas** for processing rolling 7-day chronological data arrays.
@@ -17,7 +16,7 @@ A hyper-minimalist, high-end desktop nutrition tracker designed for devs who wan
 
 Here is how the application orchestrates data across its decoupled stack under the hood:
 
-```text
+
 [ User Interface ]  ---> Logs Metrics --->  [ Flask Controller ]
  (PyWebView App)                              (server/routes.py)
         ^                                             |
@@ -31,3 +30,31 @@ Here is how the application orchestrates data across its decoupled stack under t
                                                                     |
                                                                     v Writes To
                                                              [ MySQL Database ]
+
+
+### 🔁 Execution Lifecycle
+
+1. **Initialization (`run.py`):** The app spins up a background thread to run a local Flask web server instance, then instantly spawns a native desktop frame pointing directly to it.
+2. **Environment Sync (`config.py`):** Explicitly extracts variables from `.env` with zero heavy external tracking dependencies.
+3. **Data Isolation Context (`core/db_connection.py`):** Implements a crisp Context Manager wrapper that handles resource allocation, query configuration, and cleans up socket leaks automatically.
+4. **Mathematical Processing (`core/calculations.py`):** Matrix arrays are processed on the fly via vector structures, avoiding brittle native Python loops.
+
+---
+
+### 🗄️ Database Schema Mapping
+
+The core storage tier tracks data using two clean, related tables with zero indexing bloat:
+
+
+  +-----------------------+             +-----------------------+
+  |       USER_DATA       |             |     TRACK_RECORD      |
+  +-----------------------+             +-----------------------+
+  | User_ID (PK)          | <---------\ | Record_ID (PK)        |
+  | Name                  |           | | User_ID (FK)          |
+  | Body_Weight           |           \- | Log_Date (Unique Key) |
+  | Height                |             | Calories              |
+  | Age                   |             | Protein / Carbs / Fats|
+  | Gender / Activity     |             | Footsteps             |
+  | Objective             |             +-----------------------+
+  +-----------------------+
+
