@@ -1,9 +1,7 @@
-# server/routes.py
 from flask import Blueprint, render_template, redirect, request, session, url_for
 import core.db_queries as queries
 import core.calculations as calc
 
-# Initialize blueprint routes to split our workspace from the main running app file
 server_bp = Blueprint('server', __name__)
 
 @server_bp.route('/')

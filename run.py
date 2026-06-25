@@ -1,4 +1,3 @@
-# run.py
 import threading
 import time
 from flask import Flask
