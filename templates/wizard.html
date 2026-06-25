@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLog Nutrition — Onboarding</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="center-box">
+        <div style="text-align: center; margin-bottom: 0.5rem;">
+            <h2 style="text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.25rem;">Create Profile</h2>
+            <p>Establish your tracking parameters</p>
+        </div>
+
+        <form action="{{ url_for('server.wizard') }}" method="POST" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            
+            <div class="form-group">
+                <label for="name">Profile Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="e.g., Alex" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label for="weight">Weight (kg)</label>
+                    <input type="number" id="weight" name="weight" step="0.1" class="form-control" placeholder="75.0" required>
+                </div>
+                <div class="form-group">
+                    <label for="height">Height (cm)</label>
+                    <input type="number" id="height" name="height" class="form-control" placeholder="180" required>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label for="age">Age (Years)</label>
+                    <input type="number" id="age" name="age" class="form-control" placeholder="28" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" class="form-control" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="activity_level">Daily Activity Level</label>
+                <select id="activity_level" name="activity_level" class="form-control" required>
+                    <option value="Sedentary">Sedentary (Desk work / Minimal exercise)</option>
+                    <option value="Light">Light (Light exercise 1-3 days/week)</option>
+                    <option value="Moderate">Moderate (Intense training 3-5 days/week)</option>
+                    <option value="Active">Active (Heavy daily training / Physical job)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="objective">Primary Target Objective</label>
+                <select id="objective" name="objective" class="form-control" required>
+                    <option value="Maintain">Maintain Baseline Weight</option>
+                    <option value="Cut">Cut Fat Deficit (Calorie Ceiling Mode)</option>
+                    <option value="Bulk">Bulk Muscle Surplus (Calorie Building Mode)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit" style="margin-top: 0.5rem;">Initialize Profile</button>
+        </form>
+    </div>
+
+</body>
+</html>
