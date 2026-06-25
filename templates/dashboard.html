@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLog Nutrition — Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="app-container">
+    
+    <header>
+        <div class="branding">
+            <h1>FitLog Nutrition</h1>
+            <p>Welcome back, {{ profile.Name }}</p>
+        </div>
+        <div class="meta-status">
+            <span>Strategy: <strong>{{ profile.Objective }}</strong></span>
+            <span>Weight: <strong>{{ profile.Body_Weight }} kg</strong></span>
+            <a href="{{ url_for('server.logout') }}">Switch User</a>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+
+        {% set cal_pct = (today.Calories / targets.calories * 100)|int if targets.calories > 0 else 0 %}
+        <div class="kpi-card" data-objective="{{ profile.Objective }}">
+            <div class="kpi-label">Energy Intake</div>
+            <div class="kpi-values">
+                <span class="kpi-current">{{ today.Calories }}</span>
+                <span class="kpi-target">/ {{ targets.calories }} kcal</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-bar {% if cal_pct <= 33 %}state-low{% elif cal_pct <= 66 %}state-mid{% else %}state-high{% endif %}" 
+                     style="width: {{ [cal_pct, 100]|min }}%;"></div>
+            </div>
+            <form class="log-form" action="{{ url_for('server.log_nutrient') }}" method="POST">
+                <input type="hidden" name="nutrient_column" value="Calories">
+                <input type="number" name="amount" class="log-input" placeholder="+ Add calories" required>
+                <button type="submit" class="log-btn">+</button>
+            </form>
+        </div>
+
+        {% set pro_pct = (today.Protein / targets.protein * 100)|int if targets.protein > 0 else 0 %}
+        <div class="kpi-card" data-objective="{{ profile.Objective }}">
+            <div class="kpi-label">Protein Target</div>
+            <div class="kpi-values">
+                <span class="kpi-current">{{ today.Protein }}</span>
+                <span class="kpi-target">/ {{ targets.protein }} g</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-bar {% if pro_pct <= 33 %}state-low{% elif pro_pct <= 66 %}state-mid{% else %}state-high{% endif %}" 
+                     style="width: {{ [pro_pct, 100]|min }}%;"></div>
+            </div>
+            <form class="log-form" action="{{ url_for('server.log_nutrient') }}" method="POST">
+                <input type="hidden" name="nutrient_column" value="Protein">
+                <input type="number" name="amount" class="log-input" placeholder="+ Add protein" required>
+                <button type="submit" class="log-btn">+</button>
+            </form>
+        </div>
+
+        {% set carb_pct = (today.Carbs / targets.carbs * 100)|int if targets.carbs > 0 else 0 %}
+        <div class="kpi-card" data-objective="{{ profile.Objective }}">
+            <div class="kpi-label">Carbohydrates</div>
+            <div class="kpi-values">
+                <span class="kpi-current">{{ today.Carbs }}</span>
+                <span class="kpi-target">/ {{ targets.carbs }} g</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-bar {% if carb_pct <= 33 %}state-low{% elif carb_pct <= 66 %}state-mid{% else %}state-high{% endif %}" 
+                     style="width: {{ [carb_pct, 100]|min }}%;"></div>
+            </div>
+            <form class="log-form" action="{{ url_for('server.log_nutrient') }}" method="POST">
+                <input type="hidden" name="nutrient_column" value="Carbs">
+                <input type="number" name="amount" class="log-input" placeholder="+ Add carbs" required>
+                <button type="submit" class="log-btn">+</button>
+            </form>
+        </div>
+
+        {% set fat_pct = (today.Fats / targets.fats * 100)|int if targets.fats > 0 else 0 %}
+        <div class="kpi-card" data-objective="{{ profile.Objective }}">
+            <div class="kpi-label">Dietary Fats</div>
+            <div class="kpi-values">
+                <span class="kpi-current">{{ today.Fats }}</span>
+                <span class="kpi-target">/ {{ targets.fats }} g</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-bar {% if fat_pct <= 33 %}state-low{% elif fat_pct <= 66 %}state-mid{% else %}state-high{% endif %}" 
+                     style="width: {{ [fat_pct, 100]|min }}%;"></div>
+            </div>
+            <form class="log-form" action="{{ url_for('server.log_nutrient') }}" method="POST">
+                <input type="hidden" name="nutrient_column" value="Fats">
+                <input type="number" name="amount" class="log-input" placeholder="+ Add fats" required>
+                <button type="submit" class="log-btn">+</button>
+            </form>
+        </div>
+
+        {% set steps_pct = (today.Footsteps / targets.footsteps * 100)|int if targets.footsteps > 0 else 0 %}
+        <div class="kpi-card" data-objective="Bulk"> <!-- Steps always follow Bulk logic: more is better -->
+            <div class="kpi-label">Daily Movement</div>
+            <div class="kpi-values">
+                <span class="kpi-current">{{ today.Footsteps }}</span>
+                <span class="kpi-target">/ {{ targets.footsteps }} steps</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-bar {% if steps_pct <= 33 %}state-low{% elif steps_pct <= 66 %}state-mid{% else %}state-high{% endif %}" 
+                     style="width: {{ [steps_pct, 100]|min }}%;"></div>
+            </div>
+            <form class="log-form" action="{{ url_for('server.log_nutrient') }}" method="POST">
+                <input type="hidden" name="nutrient_column" value="Footsteps">
+                <input type="number" name="amount" class="log-input" placeholder="+ Add steps" required>
+                <button type="submit" class="log-btn">+</button>
+            </form>
+        </div>
+
+    </main>
+
+    <section class="history-section">
+        <h2>7-Day Rolling History</h2>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Timeline Date</th>
+                    <th>Calories</th>
+                    <th>Protein</th>
+                    <th>Carbs</th>
+                    <th>Fats</th>
+                    <th>Footsteps</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in history %}
+                <tr>
+                    <td><strong>{{ log.Formatted_Date }}</strong></td>
+                    <td>{{ log.Calories }} kcal</td>
+                    <td>{{ log.Protein }}g</td>
+                    <td>{{ log.Carbs }}g</td>
+                    <td>{{ log.Fats }}g</td>
+                    <td>{{ log.Footsteps }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center; color: var(--text-dim);">No chronological log entries found across the system history matrix.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+</div>
+
+</body>
+</html>
