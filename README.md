@@ -51,7 +51,7 @@ The core storage tier tracks data using two clean, related tables with zero inde
   +-----------------------+             +-----------------------+
   | User_ID (PK)          | <---------\ | Record_ID (PK)        |
   | Name                  |           | | User_ID (FK)          |
-  | Body_Weight           |           \- | Log_Date (Unique Key) |
+  | Body_Weight           |           \ | Log_Date (Unique Key) |
   | Height                |             | Calories              |
   | Age                   |             | Protein / Carbs / Fats|
   | Gender / Activity     |             | Footsteps             |
